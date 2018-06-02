@@ -1,0 +1,27 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Artefact Promotion Bucket In Production
+Parameters:
+  Namespace:
+    Type: String
+    Default: "ServerlessHelloWorld"
+    Description: Project Namesapce
+Resources:
+  PromotionBucket:
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+    Type: AWS::S3::Bucket
+  ArtefactBucketName:
+    Properties:
+      Type: String
+      Value:
+        Ref: PromotionBucket
+      Name:
+        Fn::Join:
+        - ''
+        - - "/"
+          - Ref: Namespace
+          - "/"
+          - ArtefactBucket
+    Type: AWS::SSM::Parameter
